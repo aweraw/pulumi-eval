@@ -5,9 +5,8 @@ const bucket = new aws.s3.Bucket("dynamodb-indexed-bucket", {
   forceDestroy: true,
 });
 
-const tableName = "s3-object-key-index";
 const dbTable = new aws.dynamodb.Table("bucket-index", {
-  name: tableName,
+  name: "s3-bucket-object-index",
   attributes: [
     {
       name: "S3ObjectKey",
@@ -26,7 +25,7 @@ bucket.onObjectCreated("upload-handler", async (event: aws.s3.BucketEvent) => {
     await Promise.all(
       event.Records.map(async (ev) => {
         const cmd = new dynamodb.PutItemCommand({
-          TableName: tableName,
+          TableName: dbTable.name.get(),
           Item: {
             S3ObjectKey: { S: ev.s3.object.key },
           },
@@ -46,7 +45,7 @@ bucket.onObjectRemoved("delete-handler", async (event: aws.s3.BucketEvent) => {
     await Promise.all(
       event.Records.map(async (ev) => {
         const cmd = new dynamodb.DeleteItemCommand({
-          TableName: tableName,
+          TableName: dbTable.name.get(),
           Key: {
             S3ObjectKey: { S: ev.s3.object.key },
           },
