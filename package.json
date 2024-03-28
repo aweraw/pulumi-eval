@@ -1,0 +1,14 @@
+{
+    "name": "bucket-index-eval",
+    "main": "index.ts",
+    "devDependencies": {
+        "@types/node": "^18"
+    },
+    "dependencies": {
+        "@aws-sdk/client-dynamodb": "^3.540.0",
+        "@pulumi/aws": "^6.0.0",
+        "@pulumi/awsx": "^2.0.2",
+        "@pulumi/pulumi": "^3.0.0",
+        "aws-sdk": "^2.1587.0"
+    }
+}
