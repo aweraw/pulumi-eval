@@ -21,7 +21,7 @@ const dbTable = new aws.dynamodb.Table("bucket-index", {
 bucket.onObjectCreated("upload-handler", async (event: aws.s3.BucketEvent) => {
   const dynamoClient = new dynamodb.DynamoDBClient();
 
-  if (event.Records !== undefined) {
+  if (event.Records) {
     await Promise.all(
       event.Records.map(async (ev) => {
         const cmd = new dynamodb.PutItemCommand({
